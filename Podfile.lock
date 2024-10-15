@@ -1,0 +1,26 @@
+PODS:
+  - AgoraRtcEngine_iOS/AINS (4.4.0)
+  - AgoraRtcEngine_iOS/ClearVision (4.4.0)
+  - AgoraRtcEngine_iOS/RtcBasic (4.4.0)
+  - RongCloudIM/ChatRoom (5.10.4):
+    - RongCloudIM/IMLibCore
+  - RongCloudIM/IMLibCore (5.10.4)
+
+DEPENDENCIES:
+  - AgoraRtcEngine_iOS/AINS (= 4.4.0)
+  - AgoraRtcEngine_iOS/ClearVision (= 4.4.0)
+  - AgoraRtcEngine_iOS/RtcBasic (= 4.4.0)
+  - RongCloudIM/ChatRoom
+
+SPEC REPOS:
+  trunk:
+    - AgoraRtcEngine_iOS
+    - RongCloudIM
+
+SPEC CHECKSUMS:
+  AgoraRtcEngine_iOS: 8f579495aafaf383346241a419718e9775723493
+  RongCloudIM: 33f5ca860be30531ed926e0190f9f6db0b39a51a
+
+PODFILE CHECKSUM: 53fe8da6d3321e4c648cc2f3fb67e8d3f04fb18d
+
+COCOAPODS: 1.14.3
