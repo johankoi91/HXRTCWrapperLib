@@ -11,6 +11,7 @@
 		8A061D6F2CBEAB4F003731B8 /* RCLiveVideoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A061D6E2CBEAB4F003731B8 /* RCLiveVideoLayout.swift */; };
 		8A061D712CBEACF9003731B8 /* RCLiveVideoPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A061D702CBEACF9003731B8 /* RCLiveVideoPreviewView.swift */; };
 		8A061D732CBEAFF9003731B8 /* RCLiveVideoBroadcastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A061D722CBEAFF9003731B8 /* RCLiveVideoBroadcastView.swift */; };
+		8A061D752CBEC1B3003731B8 /* RCLiveVideoEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A061D742CBEC1B3003731B8 /* RCLiveVideoEngine.swift */; };
 		8A704DCA2CA93E3A00FDDD97 /* HXRTCWrapperLib.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A704DC92CA93E3A00FDDD97 /* HXRTCWrapperLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8A704DD82CA941F700FDDD97 /* RCLiveVideoDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A704DD72CA941F700FDDD97 /* RCLiveVideoDefine.swift */; };
 		8A704DDA2CA943C600FDDD97 /* RCSLVDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A704DD92CA943C600FDDD97 /* RCSLVDataSource.swift */; };
@@ -34,6 +35,7 @@
 		8A061D6E2CBEAB4F003731B8 /* RCLiveVideoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCLiveVideoLayout.swift; sourceTree = "<group>"; };
 		8A061D702CBEACF9003731B8 /* RCLiveVideoPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCLiveVideoPreviewView.swift; sourceTree = "<group>"; };
 		8A061D722CBEAFF9003731B8 /* RCLiveVideoBroadcastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCLiveVideoBroadcastView.swift; sourceTree = "<group>"; };
+		8A061D742CBEC1B3003731B8 /* RCLiveVideoEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCLiveVideoEngine.swift; sourceTree = "<group>"; };
 		8A704DC62CA93E3A00FDDD97 /* HXRTCWrapperLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HXRTCWrapperLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A704DC92CA93E3A00FDDD97 /* HXRTCWrapperLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HXRTCWrapperLib.h; sourceTree = "<group>"; };
 		8A704DD72CA941F700FDDD97 /* RCLiveVideoDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCLiveVideoDefine.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 		8A704DD32CA93EE900FDDD97 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				8A061D742CBEC1B3003731B8 /* RCLiveVideoEngine.swift */,
 				8A704DDB2CA9457C00FDDD97 /* RCLiveVideoDelegate.swift */,
 				8A704DDD2CA9473E00FDDD97 /* RCSProtocol.swift */,
 			);
@@ -313,6 +316,7 @@
 				8A704DE22CA94F2700FDDD97 /* RCLiveVideoConstants.swift in Sources */,
 				8A704DDC2CA9457C00FDDD97 /* RCLiveVideoDelegate.swift in Sources */,
 				8A061D6F2CBEAB4F003731B8 /* RCLiveVideoLayout.swift in Sources */,
+				8A061D752CBEC1B3003731B8 /* RCLiveVideoEngine.swift in Sources */,
 				8A061D712CBEACF9003731B8 /* RCLiveVideoPreviewView.swift in Sources */,
 				8A061D6D2CBEA8CA003731B8 /* RCLiveVideoAudienceView.swift in Sources */,
 				8A704DE62CA953D100FDDD97 /* RCLiveVideoSync.swift in Sources */,
