@@ -10,23 +10,15 @@ import RongChatRoom
 
 
 class RCLiveVideoSync {
-
-    private static var currentRoomId: String?
-
-    class func roomId() -> String? {
-        return currentRoomId
-    }
-
-    class func setRoomId(_ roomId: String) {
-        currentRoomId = roomId
-    }
-
+    
+    static var currentRoomId: String?
+    
     class func updateKV(key: String, value: String, completion: RCLVResult? = nil) {
         updateKV(key: key, value: value, autoDelete: false, completion: completion)
     }
-
+    
     class func updateKV(key: String, value: String, autoDelete: Bool, completion: RCLVResult?) {
-        guard let roomId = self.roomId() else {
+        guard let roomId = self.currentRoomId else {
             completion?(.roomStateError)
             return
         }
@@ -40,10 +32,10 @@ class RCLiveVideoSync {
             }
         }
     }
-
+    
     class func updateKVs(entries: [String: String], completion: RCLVResult?) {
-       
-        guard let roomId = self.roomId() else {
+        
+        guard let roomId = self.currentRoomId else {
             completion?(.roomStateError)
             return
         }
@@ -57,9 +49,9 @@ class RCLiveVideoSync {
             }
         }
     }
-
+    
     class func removeKV(key: String, completion: RCLVResult? = nil) {
-        guard let roomId = self.roomId() else {
+        guard let roomId = currentRoomId else {
             completion?(.roomStateError)
             return
         }
@@ -73,9 +65,9 @@ class RCLiveVideoSync {
             }
         }
     }
-
+    
     class func removeKVs(keys: [String], completion: RCLVResult?) {
-        guard let roomId = self.roomId() else {
+        guard let roomId = self.currentRoomId else {
             completion?(.roomStateError)
             return
         }
@@ -89,14 +81,14 @@ class RCLiveVideoSync {
             }
         }
     }
-
+    
     class func sendCommand(name: String, data: String, completion: RCLVResult? = nil) {
         let message = RCCommandMessage(name: name, data: data)
         sendMessage(content: message, completion: completion)
     }
-
+    
     class func sendMessage(content: RCMessageContent, completion: RCLVResult?) {
-        guard let roomId = self.roomId() else {
+        guard let roomId = currentRoomId else {
             completion?(.roomStateError)
             return
         }
@@ -110,14 +102,14 @@ class RCLiveVideoSync {
             }
         })
     }
-
+    
     class func sendCommand(to userId: String, name: String, data: String, completion: RCLVResult? = nil) {
         let message = RCCommandMessage(name: name, data: data)
         sendMessage(to: userId, content: message, completion: completion)
     }
-
+    
     class func sendMessage(to userId: String, content: RCMessageContent, completion: RCLVResult?) {
-        guard let roomId = self.roomId() else {
+        guard let roomId = currentRoomId else {
             completion?(.roomStateError)
             return
         }

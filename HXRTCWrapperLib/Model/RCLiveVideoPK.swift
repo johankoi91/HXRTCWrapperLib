@@ -9,12 +9,12 @@ import Foundation
 
 class RCLiveVideoPK {
 
-    var inviterUserId: String?
+    var inviterUserId: UInt?
     var inviterRoomId: String?
-    var inviteeUserId: String?
+    var inviteeUserId: UInt?
     var inviteeRoomId: String?
 
-    init(inviterUserId: String?, inviterRoomId: String?, inviteeUserId: String?, inviteeRoomId: String?) {
+    init(inviterUserId: UInt?, inviterRoomId: String?, inviteeUserId: UInt?, inviteeRoomId: String?) {
         self.inviterUserId = inviterUserId
         self.inviterRoomId = inviterRoomId
         self.inviteeUserId = inviteeUserId
@@ -47,9 +47,9 @@ class RCLiveVideoPK {
         guard let data = jsonString.data(using: .utf8) else { return nil }
 
         if let dict = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] {
-            let pkInfo = RCLiveVideoPK(inviterUserId: dict["inviterUserId"] as? String,
+            let pkInfo = RCLiveVideoPK(inviterUserId: dict["inviterUserId"] as? UInt,
                                        inviterRoomId: dict["inviterRoomId"] as? String,
-                                       inviteeUserId: dict["inviteeUserId"] as? String,
+                                       inviteeUserId: dict["inviteeUserId"] as? UInt,
                                        inviteeRoomId: dict["inviteeRoomId"] as? String)
             return pkInfo
         }
@@ -57,7 +57,7 @@ class RCLiveVideoPK {
     }
 
     var description: String {
-        return "inviterUserId is \(self.inviterUserId ?? ""), inviterRoomId is \(self.inviterRoomId ?? "")"
+        return "inviterUserId is \(String(describing: self.inviterUserId)), inviterRoomId is \(self.inviterRoomId ?? "")"
     }
 
     var roomId: String? {
@@ -65,7 +65,7 @@ class RCLiveVideoPK {
         return ""
     }
 
-    var roomUserId: String? {
+    var roomUserId: UInt? {
         return RCLiveVideoManager.shared.roomUserId
     }
 
@@ -73,7 +73,7 @@ class RCLiveVideoPK {
         return (self.inviteeRoomId == self.roomId) ? self.inviterRoomId : self.inviteeRoomId
     }
 
-    var otherRoomUserId: String? {
+    var otherRoomUserId: UInt? {
         return (self.inviteeUserId == self.roomUserId) ? self.inviterUserId : self.inviteeUserId
     }
 }

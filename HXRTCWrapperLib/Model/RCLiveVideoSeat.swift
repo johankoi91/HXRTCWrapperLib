@@ -31,7 +31,7 @@ class RCLiveVideoSeat {
     weak var delegate: RCLiveVideoSeatDelegate?
     
     /// 麦位上的用户
-    var userId: String
+    var userId: UInt?
     
     /// 麦上用户是否开启音频
     private(set) var userEnableAudio: Bool
@@ -55,7 +55,7 @@ class RCLiveVideoSeat {
     var enableTiny: Bool = true
     
     init(frame: CGRect, index: Int) {
-        self.userId = ""
+        self.userId = 0
         self.mute = false
         self.lock = false
         self.frame = frame
@@ -64,7 +64,7 @@ class RCLiveVideoSeat {
         self.userEnableVideo = true
     }
     
-    init(userId: String, mute: Bool, lock: Bool, frame: CGRect, index: Int, userEnableAudio: Bool, userEnableVideo: Bool) {
+    init(userId: UInt, mute: Bool, lock: Bool, frame: CGRect, index: Int, userEnableAudio: Bool, userEnableVideo: Bool) {
         self.userId = userId
         self.mute = mute
         self.lock = lock
@@ -74,39 +74,44 @@ class RCLiveVideoSeat {
         self.userEnableVideo = userEnableVideo
     }
 
-    var currentUserId: String {
-#warning("TOBE")
-//      return RCRTCEngine.sharedInstance().room?.localUser.userId ?? ""
-        return ""
+    var currentUserId: UInt {
+        return RCLiveVideoEngine.shared.currentUserId
     }
+    
+    
+    var kvKey: String {
+        return "\(RCLVRSeatInfoPreKey)\(index)"
+    }
+    
+    
 
 
     func setLock(_ lock: Bool, completion: RCLVResult?) {
         self.lock = lock
-        self.userId = ""
+        self.userId = 0
         self.userEnableAudio = true
         self.userEnableVideo = true
-        RCLiveVideoSync.updateKV(key: self.kvKey(), value: self.toJSONString(), completion: completion)
+        RCLiveVideoSync.updateKV(key: self.kvKey, value: self.toJSONString(), completion: completion)
         RCSLVDataSource.shared.seat(self, didLock: lock, withDelegate: self.delegate)
     }
 
     func setMute(_ mute: Bool, completion: RCLVResult?) {
         self.mute = mute
-        RCLiveVideoSync.updateKV(key: kvKey(), value: self.toJSONString(), completion: completion)
+        RCLiveVideoSync.updateKV(key: kvKey, value: self.toJSONString(), completion: completion)
         self.updateAudioStreamStateIfNeeded()
         RCSLVDataSource.shared.seat(self, didMute: mute, withDelegate: self.delegate)
     }
 
     func setUserEnableAudio(_ enable: Bool, completion: RCLVResult?) {
         self.userEnableAudio = enable
-        RCLiveVideoSync.updateKV(key: kvKey(), value: self.toJSONString(), completion: completion)
+        RCLiveVideoSync.updateKV(key: kvKey, value: self.toJSONString(), completion: completion)
         self.updateAudioStreamStateIfNeeded()
         RCSLVDataSource.shared.seat(self, didUserEnableAudio: enable, withDelegate: self.delegate)
     }
 
     func setUserEnableVideo(_ enable: Bool, completion: RCLVResult?) {
         self.userEnableVideo = enable
-        RCLiveVideoSync.updateKV(key: kvKey(), value: self.toJSONString(), completion: completion)
+        RCLiveVideoSync.updateKV(key: kvKey, value: self.toJSONString(), completion: completion)
         self.updateVideoStreamStateIfNeeded()
 #warning("TOBE")
         //RCLiveVideoManager.shared.videoView?.updateLayout(with: [self])
@@ -162,7 +167,7 @@ extension RCLiveVideoSeat {
             return nil
         }
         
-        let userId = JSON["userId"] as? String ?? ""
+        let userId = JSON["userId"] as? UInt ?? 0
         let mute = (JSON["mute"] as? Bool) ?? false
         let lock = (JSON["lock"] as? Bool) ?? false
         let index = (JSON["index"] as? Int) ?? 0
@@ -170,7 +175,7 @@ extension RCLiveVideoSeat {
         let userEnableAudio = (JSON["userEnableAudio"] as? Bool) ?? true
         let userEnableVideo = (JSON["userEnableVideo"] as? Bool) ?? true
         
-        return RCLiveVideoSeat(userId: userId, mute: mute, lock: lock, frame: frame, index: index, userEnableAudio: userEnableAudio, userEnableVideo: userEnableVideo)
+        return RCLiveVideoSeat(userId: UInt(userId), mute: mute, lock: lock, frame: frame, index: index, userEnableAudio: userEnableAudio, userEnableVideo: userEnableVideo)
     }
     
     func JSONString() -> String? {
@@ -191,12 +196,7 @@ extension RCLiveVideoSeat {
         return String(data: data, encoding: .utf8)
     }
     
-    
-    func kvKey() -> String {
-        return "\(RCLVRSeatInfoPreKey)\(index)"
-    }
-    
-    
+ 
     func merge(_ seat: RCLiveVideoSeat?) {
         guard let seat = seat, seat.index == self.index else { return }
         

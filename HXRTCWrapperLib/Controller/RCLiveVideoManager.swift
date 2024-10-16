@@ -6,7 +6,7 @@
 //
 
 import UIKit
-//import RongRTCLib
+import AgoraRtcKit
 
 class RCLiveVideoManager {
     
@@ -17,11 +17,10 @@ class RCLiveVideoManager {
     }
     
     // 用户在房间中的角色，默认为观众
-#warning("TOBE")
-    var role: Int = 1
+    var role: AgoraClientRole = .audience
     
     // 房间 ID
-    var roomUserId: String?
+    var roomUserId: UInt?
     
     // 房间连麦类型
     var mixType: RCLiveVideoMixType = .oneToOne {
@@ -53,7 +52,10 @@ class RCLiveVideoManager {
     var invitationUserIds: Set<String> = []
     
     weak var CDNInfo: RCSCDNDataSource?
-    var videoView: RCLiveVideoPreviewView?
+        
+    lazy var videoView: RCLiveVideoPreviewView = {
+        return RCLiveVideoPreviewView()
+    }()
     
     static let shared = RCLiveVideoManager()
     
@@ -64,21 +66,20 @@ class RCLiveVideoManager {
         self.mixType = .oneToOne
     }
     
-    func liveUserIds() -> [String] {
+    func liveUserIds() -> [UInt] {
         return seats.compactMap { $0.userId }
     }
     
     func availableSeat() -> Int? {
         for seat in seats {
-            if !seat.lock && seat.userId.isEmpty {
+            if !seat.lock && seat.userId != nil {
                 return seat.index
             }
         }
         return nil
     }
     
-    func seat(withUserId userId: String) -> RCLiveVideoSeat? {
-        guard !userId.isEmpty else { return nil }
+    func seat(withUserId userId: UInt) -> RCLiveVideoSeat? {
         return seats.first { $0.userId == userId }
     }
     
@@ -93,7 +94,7 @@ class RCLiveVideoManager {
         }
         
         if let firstSeat = updatedSeats.first {
-            firstSeat.userId = roomUserId ?? ""
+            firstSeat.userId = roomUserId ?? 0
             if mixType == .oneToOne || mixType == .oneToSix {
                 firstSeat.enableTiny = false
             }

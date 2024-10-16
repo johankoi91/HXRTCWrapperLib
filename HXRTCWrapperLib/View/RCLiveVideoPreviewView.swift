@@ -29,27 +29,24 @@ class RCLiveVideoPreviewView: UIView {
         self.layer.mask = maskLayer()
         
         videoView?.frame = self.bounds
-#warning("TOBE")
-//        if RCRTCEngine.sharedInstance().room != nil {
-//            if let delegate = RCSLVDataSource.shared.mixDelegate {
-//                for seat in RCLiveVideoManager.shared.seats {
-//                    let frame = RCLiveVideoLayout.convert(seat.frame, to: self)
-//                    delegate.liveVideoDidLayout(seat: seat, withFrame: frame)
-//                }
-//            }
-//        }
+        if let delegate = RCSLVDataSource.shared.mixDelegate {
+            for seat in RCLiveVideoManager.shared.seats {
+                let frame = RCLiveVideoLayout.convert(seat.frame, to: self)
+                delegate.liveVideoDidLayout(seat: seat, withFrame: frame)
+            }
+        }
+        
     }
 
     func reloadView() {
         // Remove the existing video view
         videoView?.removeFromSuperview()
         videoView = nil
-#warning("TOBE")
-//        if RCLiveVideoManager.shared.role == .audience {
-//            videoView = RCLiveVideoAudienceView()
-//        } else {
-//            videoView = RCLiveVideoBroadcastView()
-//        }
+        if RCLiveVideoManager.shared.role == .audience {
+            videoView = RCLiveVideoAudienceView()
+        } else {
+            videoView = RCLiveVideoBroadcastView()
+        }
         
         videoView?.frame = self.bounds
         if let videoView = videoView {
@@ -58,7 +55,8 @@ class RCLiveVideoPreviewView: UIView {
         }
     }
 
-    func prepare(_ seat: RCLiveVideoSeat) {
+    func prepare(_ seat: RCLiveVideoSeat?) {
+        guard let seat = seat else { return }
         videoView?.prepare(seat)
     }
 
@@ -88,7 +86,7 @@ class RCLiveVideoPreviewView: UIView {
         
         let path = UIBezierPath()
         for seat in RCLiveVideoManager.shared.seats {
-            guard !seat.userId.isEmpty, seat.userEnableVideo else { continue }
+            guard seat.userId != nil, seat.userEnableVideo else { continue }
             let frame = RCLiveVideoLayout.convert(seat.frame, to: self)
             path.move(to: frame.origin)
             path.addLine(to: CGPoint(x: frame.maxX, y: frame.minY))
